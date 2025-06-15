@@ -1,0 +1,88 @@
+import java.util.*;
+
+public class AIChatBot {
+
+    private static final Scanner scanner = new Scanner(System.in);
+
+    // Simulated NLP/ML intent model with lowercase keys
+    private static final Map<String, String> responses = new HashMap<>();
+
+    public static void main(String[] args) {
+        initializeBot();
+
+        System.out.println("ChatBot: Hello! I'm ChatBot. Ask me anything or type 'exit' to quit.");
+
+        while (true) {
+            System.out.print("You: ");
+            String userInput = scanner.nextLine().trim().toLowerCase();
+
+            if (userInput.equals("exit") || userInput.equals("bye")) {
+                System.out.println("ChatBot: Goodbye! Have a great day.");
+                break;
+            }
+
+            boolean responseGiven = false;
+            for (String keyword : responses.keySet()) {
+                if (userInput.contains(keyword)) {
+                    System.out.println("ChatBot: " + responses.get(keyword));
+                    responseGiven = true;
+                    break;
+                }
+            }
+
+            if (!responseGiven) {
+                System.out.println("ChatBot: I'm still learning! Can you rephrase that?");
+            }
+        }
+
+        scanner.close();
+    }
+
+    private static void initializeBot() {
+        // All keywords must be lowercase to match .toLowerCase() user input
+        responses.put("hi", "Hello! How can I help you?");
+        responses.put("hello", "Hi there! What would you like to know?");
+        responses.put("how are you", "I'm just a virtual assistant, but I feel fantastic right now!");
+        responses.put("name", "I'm ChatBot, your virtual assistant.");
+        responses.put("help", "You can ask me about anything. Will try to answer to my best!");
+        responses.put("weather", "It's always sunny in the code world!");
+        responses.put("time", "Time is just an illusion here!");
+        responses.put("joke", "Why do living beings drink water? Because they can't chew it!");
+        responses.put("my age", "I'm Sorry! I've no clue about it.");
+        responses.put("body temperature", "37 degree celsius");
+        responses.put("thanks", "You're welcome!");
+    }
+}
+
+
+
+
+OUTPUT:
+
+ChatBot: Hello! I'm ChatBot. Ask me anything or type 'exit' to quit.
+You: hi
+ChatBot: Hello! How can I help you?
+You: hello
+ChatBot: Hi there! What would you like to know?
+You: how are you
+ChatBot: I'm just a virtual assistant, but I feel fantastic right now!
+You: name
+ChatBot: I'm ChatBot, your virtual assistant.
+You: help
+ChatBot: You can ask me about anything. Will try to answer to my best!
+You: who are you
+ChatBot: I'm still learning! Can you rephrase that?
+You: weather
+ChatBot: It's always sunny in the code world!
+You: time
+ChatBot: Time is just an illusion here!
+You: joke
+ChatBot: Why do living beings drink water? Because they can't chew it!
+You: my age
+ChatBot: I'm Sorry! I've no clue about it.
+You: body temperature
+ChatBot: 37 degree celsius
+You: thanks
+ChatBot: You're welcome!
+You: bye
+ChatBot: Goodbye! Have a great day.
