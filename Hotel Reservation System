@@ -1,0 +1,166 @@
+import java.util.*;
+
+class Room {
+    int roomNumber;
+    String type;
+    boolean isBooked;
+
+    public Room(int roomNumber, String type) {
+        this.roomNumber = roomNumber;
+        this.type = type;
+        this.isBooked = false;
+    }
+}
+
+class Booking {
+    String customerName;
+    Room room;
+    String paymentStatus;
+
+    public Booking(String customerName, Room room, String paymentStatus) {
+        this.customerName = customerName;
+        this.room = room;
+        this.paymentStatus = paymentStatus;
+    }
+
+    public void displayBooking() {
+        System.out.println("Customer: " + customerName);
+        System.out.println("Room Number: " + room.roomNumber);
+        System.out.println("Room Type: " + room.type);
+        System.out.println("Payment Status: " + paymentStatus);
+        System.out.println("---------------------------");
+    }
+}
+
+public class HotelReservationSystem {
+    static List<Room> rooms = new ArrayList<>();
+    static List<Booking> bookings = new ArrayList<>();
+    static Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) {
+        initializeRooms();
+
+        while (true) {
+            System.out.println("\n--- Hotel Reservation System ---");
+            System.out.println("1. View Available Rooms");
+            System.out.println("2. Book a Room");
+            System.out.println("3. View All Bookings");
+            System.out.println("4. Exit");
+            System.out.print("Choose an option: ");
+            int choice = scanner.nextInt();
+            scanner.nextLine();  // consume newline
+
+            switch (choice) {
+                case 1 -> viewAvailableRooms();
+                case 2 -> bookRoom();
+                case 3 -> viewAllBookings();
+                case 4 -> {
+                    System.out.println("Thank you for using the reservation system!");
+                    return;
+                }
+                default -> System.out.println("Invalid option.");
+            }
+        }
+    }
+
+    static void initializeRooms() {
+        rooms.add(new Room(101, "Single"));
+        rooms.add(new Room(102, "Single"));
+        rooms.add(new Room(201, "Double"));
+        rooms.add(new Room(202, "Double"));
+        rooms.add(new Room(301, "Suite"));
+    }
+
+    static void viewAvailableRooms() {
+        System.out.println("\nAvailable Rooms:");
+        for (Room room : rooms) {
+            if (!room.isBooked) {
+                System.out.println("Room " + room.roomNumber + " (" + room.type + ")");
+            }
+        }
+    }
+
+    static void bookRoom() {
+        System.out.print("\nEnter your name: ");
+        String name = scanner.nextLine();
+
+        System.out.print("Enter room type (Single/Double/Suite): ");
+        String type = scanner.nextLine();
+
+        for (Room room : rooms) {
+            if (!room.isBooked && room.type.equalsIgnoreCase(type)) {
+                System.out.print("Enter payment amount (simulated): ");
+                scanner.nextLine(); // skip actual payment
+
+                room.isBooked = true;
+                Booking booking = new Booking(name, room, "Paid");
+                bookings.add(booking);
+                System.out.println("Room " + room.roomNumber + " booked successfully!");
+                return;
+            }
+        }
+        System.out.println("No available rooms of type: " + type);
+    }
+
+    static void viewAllBookings() {
+        if (bookings.isEmpty()) {
+            System.out.println("No bookings yet.");
+        } else {
+            System.out.println("\n--- All Bookings ---");
+            for (Booking b : bookings) {
+                b.displayBooking();
+            }
+        }
+    }
+}
+
+
+
+OUTPUT:
+
+--- Hotel Reservation System ---
+1. View Available Rooms
+2. Book a Room
+3. View All Bookings   
+4. Exit
+Choose an option: 1    
+
+Available Rooms:
+Room 101 (Single)
+Room 102 (Single)
+Room 201 (Double)
+Room 202 (Double)
+Room 301 (Suite)
+
+--- Hotel Reservation System ---
+1. View Available Rooms
+2. Book a Room
+3. View All Bookings
+4. Exit
+Choose an option: 2
+
+Enter your name: Keosha
+Enter room type (Single/Double/Suite): Suite
+Enter payment amount (simulated): 1000
+Room 301 booked successfully!
+
+--- Hotel Reservation System ---
+1. View Available Rooms
+2. Book a Room
+3. View All Bookings
+4. Exit
+Choose an option: 3
+
+--- All Bookings ---
+Customer: Keosha
+Room Number: 301
+Room Type: Suite
+Payment Status: Paid
+
+--- Hotel Reservation System ---
+1. View Available Rooms
+2. Book a Room
+3. View All Bookings
+4. Exit
+Choose an option: 4
+Thank you for using the reservation system!
