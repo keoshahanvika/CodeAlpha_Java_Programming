@@ -1,0 +1,95 @@
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
+/**
+ * GradeAnalyzer - A simple Java console application for educators to input student grades and evaluate:
+ * - Average score
+ * - Highest score
+ * - Lowest score
+ * The program confirms user input and dynamically stores grades using an ArrayList. It also handles invalid entries gracefully.
+ **/
+public class StudentGradeTracker {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        ArrayList<Double> studentGrades = new ArrayList<>();
+
+        System.out.println("---- Student Grade Tracker ----");
+        System.out.println("Enter each Student's Grade between 0 and 100.");
+        System.out.println("Type -1 to stop entering grades.\n");
+        
+        // Accepting Grades until user enters -1
+        while (true) {
+            System.out.print("Enter the Grade: ");
+            try {
+                double input = scanner.nextDouble();
+
+                if (input == -1) {
+                    break; // Sentinel value to exit input loop
+                } else if (input >= 0 && input <= 100) {
+                    studentGrades.add(input); // Store valid grade
+                } else {
+                    System.out.println("Grade must be between 0 and 100.");
+                }
+            } catch (InputMismatchException ex) {
+                System.out.println("Invalid input. Please Enter a Numeric Value.");
+                scanner.next(); // Clear the invalid input
+            }
+        }
+
+        // Ensure at least one grade was entered before calculating
+        if (studentGrades.isEmpty()) {
+            System.out.println("\n No Grades Entered. Program Terminated.");
+        } else {
+            double total = 0;
+
+            // Sum all grades
+            for (double grade : studentGrades) {
+                total += grade;
+            }
+
+            // Calculate statistics
+            double average = total / studentGrades.size();
+            double highest = Collections.max(studentGrades);
+            double lowest = Collections.min(studentGrades);
+
+            // Display the results
+            System.out.println("\n --- Student Grade Tracker Report ---");
+            System.out.printf("Total Grades Entered : %d%n", studentGrades.size());
+            System.out.printf("Average Score : %.2f%n", average);
+            System.out.printf("Highest Score : %.2f%n", highest);
+            System.out.printf("Lowest Score : %.2f%n", lowest);
+        }
+
+        scanner.close(); // Cleanup scanner resource
+    }
+}
+
+
+
+
+
+INPUT:
+
+---- Student Grade Tracker ----
+Enter each Student's Grade between 0 and 100.
+Type -1 to stop entering grades.
+Enter the Grade: 67
+Enter the Grade: 89
+Enter the Grade: 90
+Enter the Grade: 99
+Enter the Grade: 76
+Enter the Grade: 990
+Grade must be between 0 and 100.
+Enter the Grade: 67
+Enter the Grade: -1
+
+OUTPUT:
+
+ --- Student Grade Tracker Report ---
+Total Grades Entered : 6
+Average Score : 81.33
+Highest Score : 99.00
+Lowest Score : 67.00
